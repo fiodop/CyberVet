@@ -3,7 +3,8 @@ package com.cybervet.service;
 import com.cybervet.config.Config;
 import com.cybervet.dispatcher.CommandDispatcher;
 import com.cybervet.dispatcher.MessageDispatcher;
-import com.cybervet.model.dto.ResponseDto;
+import com.cybervet.model.dto.AppUserResponseDto;
+import com.cybervet.model.enums.UserState;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -11,12 +12,15 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.util.HashMap;
+
 @Component
 @RequiredArgsConstructor
 public class TelegramBot extends TelegramLongPollingBot {
     private final Config config;
     private final CommandDispatcher commandDispatcher;
     private final MessageDispatcher messageDispatcher;
+
 
 
     @Override
@@ -38,16 +42,17 @@ public class TelegramBot extends TelegramLongPollingBot {
         Long chatId = update.getMessage().getChatId();
 
         if (message.startsWith("/")) {
-            ResponseDto response = commandDispatcher.dispatch(message, chatId, update);
+            AppUserResponseDto response = commandDispatcher.dispatch(message, chatId, update);
             sendMessage(response);
             return;
         }
 
-        ResponseDto response = messageDispatcher.dispatch(chatId, message);
+
+        AppUserResponseDto response = messageDispatcher.dispatch(chatId, message);
         sendMessage(response);
     }
 
-    private void sendMessage(ResponseDto dto) {
+    public void sendMessage(AppUserResponseDto dto) {
         SendMessage message = new SendMessage();
 
         message.setChatId(String.valueOf(dto.getChatId()));

@@ -4,5 +4,6 @@ public enum UserState {
     nothing,
     START,
     CHOOSE_A_DIET,
-    MAIN_MENU
+    MAIN_MENU,
+    ADDING_PET
 }

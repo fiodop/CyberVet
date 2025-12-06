@@ -1,9 +1,10 @@
 package com.cybervet.handler.commandHandler;
 
-import com.cybervet.annotation.HandlerForState;
+import com.cybervet.handler.messageHandler.MainMenuHandler;
 import com.cybervet.model.AppUser;
-import com.cybervet.model.dto.ResponseDto;
+import com.cybervet.model.dto.AppUserResponseDto;
 import com.cybervet.model.enums.UserState;
+import com.cybervet.service.KeyboardService;
 import com.cybervet.service.StateService;
 import com.cybervet.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -16,26 +17,33 @@ public class StartCommandHandler implements CommandHandler {
     private final StateService stateService;
     private final UserService userService;
 
+
     @Override
     public boolean supports(String command) {
         return command.equals("/start");
     }
 
     @Override
-    public ResponseDto handle(String command, long chatId, Update update) {
-         stateService.setState(chatId, UserState.MAIN_MENU);
+    public AppUserResponseDto handle(String command, long chatId, Update update) {
+        AppUserResponseDto response = registerUser(update);
+        KeyboardService keyboardService = new KeyboardService();
+        response.setReplyKeyboardMarkup(keyboardService.getMainMenuReplyKeyboard());
 
-         return registerUser(update);
+        stateService.setState(chatId, UserState.MAIN_MENU);
 
+        return response;
     }
-    private ResponseDto registerUser(Update update) {
+
+
+    private AppUserResponseDto registerUser(Update update) {
         AppUser appUser = new AppUser();
         appUser.setTelegramId(update.getMessage().getFrom().getId());
 
         userService.register(appUser);
-        return new ResponseDto(update.getMessage().getChatId(),"Привет! Это бот CyberVet!");
+
+        return new AppUserResponseDto(update.getMessage().getChatId(),"Привет! Это бот CyberVet!");
 
     }
 
-//    private void mainMenu
+
 }

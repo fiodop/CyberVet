@@ -1,7 +1,7 @@
 package com.cybervet.dispatcher;
 
 import com.cybervet.handler.messageHandler.MessageHandler;
-import com.cybervet.model.dto.ResponseDto;
+import com.cybervet.model.dto.AppUserResponseDto;
 import com.cybervet.model.enums.UserState;
 import com.cybervet.service.StateService;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ public class MessageDispatcher {
     private final Map<UserState, MessageHandler> handlers;
 
 
-    public ResponseDto dispatch(long chatId, String message) {
+    public AppUserResponseDto dispatch(long chatId, String message) {
         UserState state = stateService.getState(chatId);
 
         MessageHandler handler = handlers.get(state);
@@ -25,8 +25,8 @@ public class MessageDispatcher {
             handler.handle(chatId, message);
         }
 
-        ResponseDto responseDto = new ResponseDto(chatId, message);
-        responseDto.setMessage("Неизвестная команда");
-        return responseDto;
+        AppUserResponseDto appUserResponseDto = new AppUserResponseDto(chatId, message);
+        appUserResponseDto.setMessage("Неизвестная команда");
+        return appUserResponseDto;
     }
 }

@@ -18,5 +18,9 @@ public class StateService {
     public void setState(long chatId, UserState state) {
         states.put(chatId, state);
     }
+
+    public boolean isNewUser(long chatId) {
+        return getState(chatId) == null;
+    }
 }
 

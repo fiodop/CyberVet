@@ -1,0 +1,16 @@
+bot:
+  name: CyberVetDemo
+  key: 8536770309:AAFV6eUeTKLFmEP-y-5m5xI8xL5aL3irr7A
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/CyberVetDB
+    username: postgres
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true

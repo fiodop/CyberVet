@@ -1,6 +1,6 @@
 package com.cybervet.service;
 
-import com.cybervet.model.User;
+import com.cybervet.model.AppUser;
 import com.cybervet.repositry.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -15,11 +15,11 @@ public class UserService {
 
     /**
      * Метод для регистрации нового пользователя в бд, если до этого он не запускал бота
-     * @param user - объект класса User, который содержит данные пользователя
+     * @param appUser - объект класса User, который содержит данные пользователя
      */
-    public void register(User user) {
-        if(userRepository.findByUsername(user.getUsername()).isEmpty()){
-            userRepository.save(user);
+    public void register(AppUser appUser) {
+        if(userRepository.findByUsername(appUser.getUsername()).isEmpty()){
+            userRepository.save(appUser);
         }
     }
 }

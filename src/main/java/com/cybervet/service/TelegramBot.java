@@ -2,17 +2,21 @@ package com.cybervet.service;
 
 import com.cybervet.config.Config;
 import com.cybervet.dispatcher.CommandDispatcher;
+import com.cybervet.dispatcher.MessageDispatcher;
+import com.cybervet.model.dto.ResponseDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 @Component
+@RequiredArgsConstructor
 public class TelegramBot extends TelegramLongPollingBot {
     private final Config config;
-    private final CommandDispatcher dispatcher;
+    private final CommandDispatcher commandDispatcher;
+    private final MessageDispatcher messageDispatcher;
 
 
     @Override
@@ -27,40 +31,41 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        if(update.hasMessage() && update.getMessage().hasText()) {
-            String message = update.getMessage().getText();
-            Long chatId = update.getMessage().getChatId();
-            String response = dispatcher.dispatch(message, chatId, update);
-            sendMessage(chatId.toString(), response);
+        if (!update.hasMessage() || !update.getMessage().hasText())
+            return;
+
+        String message = update.getMessage().getText();
+        Long chatId = update.getMessage().getChatId();
+
+        if (message.startsWith("/")) {
+            ResponseDto response = commandDispatcher.dispatch(message, chatId, update);
+            sendMessage(response);
+            return;
         }
+
+        ResponseDto response = messageDispatcher.dispatch(chatId, message);
+        sendMessage(response);
     }
 
-    private void sendMessage(String chatId, String textToSend) {
+    private void sendMessage(ResponseDto dto) {
         SendMessage message = new SendMessage();
-        message.setChatId(chatId);
-        message.setText(textToSend);
 
-        try{
+        message.setChatId(String.valueOf(dto.getChatId()));
+        message.setText(dto.getMessage());
+
+        if (dto.getInlineKeyboardMarkup() != null) {
+            message.setReplyMarkup(dto.getInlineKeyboardMarkup());
+        }
+
+        if (dto.getReplyKeyboardMarkup() != null) {
+            message.setReplyMarkup(dto.getReplyKeyboardMarkup());
+        }
+
+        try {
             execute(message);
         } catch (TelegramApiException e) {
             throw new RuntimeException(e);
         }
     }
-    private void sendMessage(String chatId, String textToSend, ReplyKeyboardMarkup keyboardMarkup) {
-        SendMessage message = new SendMessage();
-        message.setChatId(chatId);
-        message.setText(textToSend);
-        message.setReplyMarkup(keyboardMarkup);
 
-        try{
-            execute(message);
-        } catch (TelegramApiException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public TelegramBot(Config config, CommandDispatcher dispatcher) {
-        this.config = config;
-        this.dispatcher = dispatcher;
-    }
 }

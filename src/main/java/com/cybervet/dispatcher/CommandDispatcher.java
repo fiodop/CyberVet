@@ -1,6 +1,7 @@
 package com.cybervet.dispatcher;
 
 import com.cybervet.handler.commandHandler.CommandHandler;
+import com.cybervet.model.dto.ResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -12,11 +13,13 @@ import java.util.List;
 public class CommandDispatcher {
     private final List<CommandHandler> handlers;
 
-    public String dispatch(String command, long chatId, Update update) {
+    public ResponseDto dispatch(String command, long chatId, Update update) {
+        ResponseDto responseDto = new ResponseDto(chatId, "Неизвестная команда");
+
         return handlers.stream()
                 .filter(h -> h.supports(command))
                 .findFirst()
                 .map(h -> h.handle(command, chatId, update))
-                .orElse("Неизвестная команда");
+                .orElse(responseDto);
     }
 }

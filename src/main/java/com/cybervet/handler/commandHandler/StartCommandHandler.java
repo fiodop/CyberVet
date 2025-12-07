@@ -1,10 +1,9 @@
 package com.cybervet.handler.commandHandler;
 
-import com.cybervet.handler.messageHandler.MainMenuHandler;
 import com.cybervet.model.AppUser;
 import com.cybervet.model.dto.AppUserResponseDto;
 import com.cybervet.model.enums.UserState;
-import com.cybervet.service.KeyboardService;
+import com.cybervet.service.ReplyKeyboardService;
 import com.cybervet.service.StateService;
 import com.cybervet.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -26,8 +25,8 @@ public class StartCommandHandler implements CommandHandler {
     @Override
     public AppUserResponseDto handle(String command, long chatId, Update update) {
         AppUserResponseDto response = registerUser(update);
-        KeyboardService keyboardService = new KeyboardService();
-        response.setReplyKeyboardMarkup(keyboardService.getMainMenuReplyKeyboard());
+        ReplyKeyboardService replyKeyboardService = new ReplyKeyboardService();
+        response.setReplyKeyboardMarkup(replyKeyboardService.getMainMenuReplyKeyboard());
 
         stateService.setState(chatId, UserState.MAIN_MENU);
 

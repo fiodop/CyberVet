@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class KeyboardService {
+public class ReplyKeyboardService {
 
     /**
      * @return экземпляр класса ReplyKeyboardMarkup с кнопками основного меню
@@ -30,6 +30,12 @@ public class KeyboardService {
 
         getReplyKeyboardMarkup(buttons, 2);
         return getReplyKeyboardMarkup(buttons, 2);
+    }
+
+    public ReplyKeyboardMarkup getCatBreedsKeyboard() {
+        ArrayList<String> buttons = new ArrayList<>();
+        buttons.add("Домашняя");
+        return getReplyKeyboardMarkup(buttons, 1);
     }
 
 

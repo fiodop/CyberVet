@@ -3,18 +3,18 @@ package com.cybervet.handler.messageHandler;
 import com.cybervet.annotation.HandlerForState;
 import com.cybervet.model.dto.AppUserResponseDto;
 import com.cybervet.model.enums.UserState;
-import com.cybervet.service.KeyboardService;
-import com.cybervet.service.TelegramBot;
+import com.cybervet.service.ReplyKeyboardService;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
+
+
 import org.springframework.stereotype.Component;
 
 @Component
 @HandlerForState(UserState.MAIN_MENU)
 @RequiredArgsConstructor
 public class MainMenuHandler implements MessageHandler {
-    private final KeyboardService keyboardService;
+    private final ReplyKeyboardService replyKeyboardService;
 
     @Override
     public AppUserResponseDto handle(long chatId, String message) {
@@ -22,7 +22,12 @@ public class MainMenuHandler implements MessageHandler {
         response.setChatId(chatId);
         response.setMessage("Выберите действие");
         response.setReplyKeyboardMarkup(
-                keyboardService.getMainMenuReplyKeyboard());
+                replyKeyboardService.getMainMenuReplyKeyboard());
         return response;
+    }
+
+    @Override
+    public boolean supports(String message) {
+        return false;
     }
 }

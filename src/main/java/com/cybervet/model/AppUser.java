@@ -18,4 +18,6 @@ public class AppUser {
 
     @OneToMany(cascade = CascadeType.ALL)
     private ArrayList<Feedback> feedbackList;
+
+    public AppUser(String username, long telegramId) {}
 }

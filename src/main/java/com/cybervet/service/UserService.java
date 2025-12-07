@@ -5,6 +5,7 @@ import com.cybervet.repositry.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.telegram.telegrambots.meta.api.objects.Update;
 
 
 @Service
@@ -15,11 +16,15 @@ public class UserService {
 
     /**
      * Метод для регистрации нового пользователя в бд, если до этого он не запускал бота
-     * @param appUser - объект класса User, который содержит данные пользователя
+     * @param update - объект класса Update из Telegram bot api
      */
-    public void register(AppUser appUser) {
-        if(userRepository.findByUsername(appUser.getUsername()).isEmpty()){
-            userRepository.save(appUser);
+    public void register(Update update) {
+        AppUser user = new AppUser(update.getMessage().getFrom().getUserName(),
+                update.getMessage().getFrom().getId());
+
+
+        if(userRepository.findByTelegramId((user.getTelegramId())).isEmpty()){
+            userRepository.save(user);
         }
     }
 }

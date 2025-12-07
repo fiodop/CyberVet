@@ -1,10 +1,11 @@
-package com.cybervet.handler.messageHandler;
+package com.cybervet.handler.messageHandler.petInfoHandler;
 
 import com.cybervet.annotation.HandlerForState;
+import com.cybervet.handler.messageHandler.MessageHandler;
 import com.cybervet.model.dto.AppUserResponseDto;
 import com.cybervet.model.enums.UserState;
 import com.cybervet.service.InlineKeyboardService;
-import com.cybervet.service.ReplyKeyboardService;
+import com.cybervet.service.StateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Component;
 @HandlerForState(UserState.ADDING_PET)
 @RequiredArgsConstructor
 public class AddPetHandler implements MessageHandler {
+    private final StateService stateService;
     private final InlineKeyboardService inlineKeyboardService;
 
     @Override
@@ -20,6 +22,7 @@ public class AddPetHandler implements MessageHandler {
         response.setChatId(chatId);
         response.setMessage("Отправьте кличку своего питомца");
         response.setInlineKeyboardMarkup(inlineKeyboardService.getCancelButtonKeyboard());
+        stateService.setState(chatId, UserState.ASKING_PET_TYPE);
         return response;
     }
 

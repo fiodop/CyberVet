@@ -24,7 +24,8 @@ public class StartCommandHandler implements CommandHandler {
 
     @Override
     public AppUserResponseDto handle(String command, long chatId, Update update) {
-        AppUserResponseDto response = registerUser(update);
+        AppUserResponseDto response = new AppUserResponseDto(update.getMessage().getChatId(),
+                "Привет! Это бот CyberVet!");
         ReplyKeyboardService replyKeyboardService = new ReplyKeyboardService();
         response.setReplyKeyboardMarkup(replyKeyboardService.getMainMenuReplyKeyboard());
 
@@ -34,14 +35,8 @@ public class StartCommandHandler implements CommandHandler {
     }
 
 
-    private AppUserResponseDto registerUser(Update update) {
-        AppUser appUser = new AppUser();
-        appUser.setTelegramId(update.getMessage().getFrom().getId());
-
-        userService.register(appUser);
-
-        return new AppUserResponseDto(update.getMessage().getChatId(),"Привет! Это бот CyberVet!");
-
+    private void registerUser(Update update) {
+        userService.register(update);
     }
 
 

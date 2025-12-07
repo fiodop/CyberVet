@@ -25,8 +25,8 @@ public class ReplyKeyboardService {
 
     public ReplyKeyboardMarkup getTypesOfAnimalsKeyboard() {
         ArrayList<String> buttons = new ArrayList<>();
-        buttons.add("Кошка");
-        buttons.add("Собака");
+        buttons.add("\uD83D\uDC08Кошка");
+        buttons.add("\uD83D\uDC15Собака");
 
         getReplyKeyboardMarkup(buttons, 2);
         return getReplyKeyboardMarkup(buttons, 2);

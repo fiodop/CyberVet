@@ -6,6 +6,7 @@ import com.cybervet.dispatcher.MessageDispatcher;
 import com.cybervet.model.dto.AppUserResponseDto;
 import com.cybervet.model.enums.UserState;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -14,6 +15,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.util.HashMap;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class TelegramBot extends TelegramLongPollingBot {
@@ -65,7 +67,7 @@ public class TelegramBot extends TelegramLongPollingBot {
         if (dto.getReplyKeyboardMarkup() != null) {
             message.setReplyMarkup(dto.getReplyKeyboardMarkup());
         }
-
+        log.info("|chatId: {} |Sending {}", dto.getChatId(), message.getText());
         try {
             execute(message);
         } catch (TelegramApiException e) {

@@ -7,6 +7,8 @@ import com.cybervet.model.dto.AppUserResponseDto;
 import com.cybervet.model.dto.PetDto;
 import com.cybervet.model.enums.Type;
 import com.cybervet.model.enums.UserState;
+import com.cybervet.service.InlineKeyboardService;
+import com.cybervet.service.ReplyKeyboardService;
 import com.cybervet.service.StateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -17,40 +19,59 @@ import java.util.HashMap;
 @HandlerForState(UserState.CHOOSING_BREED)
 @RequiredArgsConstructor
 public class BreedChoosingHandler implements MessageHandler {
+    private final ReplyKeyboardService replyKeyboardService;
     private final StateService stateService;
+    private final InlineKeyboardService inlineKeyboardService;
 
     @Override
     public AppUserResponseDto handle(long chatId, String message) {
-        if(!message.equals("\uD83D\uDC15Собака") || !message.equals("\uD83D\uDC08Кошка")){
-            stateService.setState(chatId, UserState.ASKING_PET_TYPE);
-            AppUserResponseDto responseDto = new AppUserResponseDto();
-            responseDto.setChatId(chatId);
-            responseDto.setMessage("Выберите вид животного(нажмите на кнопку):");
+
+        if (!message.equals("🐕Собака") && !message.equals("🐈Кошка")) {
+            AppUserResponseDto wrong = new AppUserResponseDto();
+            wrong.setChatId(chatId);
+            wrong.setMessage("Пожалуйста, выберите один из вариантов ниже");
+            return wrong;
         }
+
+        setType(chatId, message);
+
+        AppUserResponseDto response = getResponse(chatId, message);
+
+        stateService.setState(chatId, UserState.ASKING_AGE);
+
+        return response;
+    }
+
+    private AppUserResponseDto getResponse(long chatId, String message) {
         AppUserResponseDto response = new AppUserResponseDto();
         response.setChatId(chatId);
-
-        createPet(chatId, message);
-        if(message.equals("\uD83D\uDC15Собака")){
-            stateService.setState(chatId, UserState.CHOOSING_DOG_BREED);
-
-
+        response.setInlineKeyboardMarkup(inlineKeyboardService.getCancelButtonKeyboard());
+        if (message.equals("🐕Собака")) {
+            response.setMessage("Выберите породу собаки:");
+            response.setReplyKeyboardMarkup(replyKeyboardService.getDogBreedKeyboard());
         } else {
-            stateService.setState(chatId, UserState.SHOOSING_CAT_BREED);
+            response.setMessage("Выберите породу кошки:");
+            response.setReplyKeyboardMarkup(replyKeyboardService.getCatBreedKeyboard());
         }
         return response;
     }
 
+
     @Override
     public boolean supports(String message) {
-        return message.equals("\uD83D\uDC15Собака") || message.equals("\uD83D\uDC08Кошка");
+        return message.equals("🐕Собака") || message.equals("🐈Кошка");
     }
 
-    private void createPet(long chatId, String type) {
+
+    private void setType(long chatId, String type) {
         HashMap<Long, PetDto> pets = stateService.getPets();
         PetDto pet = pets.get(chatId);
 
-        if(type.equals("\uD83D\uDC15Собака")){
+        if (pet == null) {
+            pet = new PetDto();
+        }
+
+        if (type.equals("🐕Собака")) {
             pet.setType(Type.DOG);
         } else {
             pet.setType(Type.CAT);

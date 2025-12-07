@@ -10,8 +10,23 @@ import java.util.List;
 @Service
 public class ReplyKeyboardService {
 
+    public ReplyKeyboardMarkup getDogBreedKeyboard() {
+        ArrayList<String> breeds = new ArrayList<>();
+        breeds.add("Домашняя");
+        return createReplyKeyboardMarkup(breeds, 2);
+    }
+
+    public ReplyKeyboardMarkup getCatBreedKeyboard() {
+        ArrayList<String> breeds = new ArrayList<>();
+        breeds.add("Домашняя");
+        breeds.add("Пидорская");
+        return createReplyKeyboardMarkup(breeds, 2);
+    }
+
+
+
     /**
-     * @return экземпляр класса ReplyKeyboardMarkup с кнопками основного меню
+     * @return экземпляр класса ReplyKeyboardMarkup с кнопками главного меню
      */
     public ReplyKeyboardMarkup getMainMenuReplyKeyboard() {
         ArrayList<String> buttons = new ArrayList<>();
@@ -20,7 +35,7 @@ public class ReplyKeyboardService {
         buttons.add("Оставить отзыв");
         buttons.add("Добавить питомца");
 
-        return getReplyKeyboardMarkup(buttons, 2);
+        return createReplyKeyboardMarkup(buttons, 2);
     }
 
     public ReplyKeyboardMarkup getTypesOfAnimalsKeyboard() {
@@ -28,16 +43,17 @@ public class ReplyKeyboardService {
         buttons.add("\uD83D\uDC08Кошка");
         buttons.add("\uD83D\uDC15Собака");
 
-        getReplyKeyboardMarkup(buttons, 2);
-        return getReplyKeyboardMarkup(buttons, 2);
+        return createReplyKeyboardMarkup(buttons, 2);
     }
 
-    public ReplyKeyboardMarkup getCatBreedsKeyboard() {
+    public ReplyKeyboardMarkup getActivityKeyboard() {
         ArrayList<String> buttons = new ArrayList<>();
-        buttons.add("Домашняя");
-        return getReplyKeyboardMarkup(buttons, 1);
-    }
+        buttons.add("Низкая");
+        buttons.add("Средняя");
+        buttons.add("Высокая");
 
+        return createReplyKeyboardMarkup(buttons, 3);
+    }
 
 
     /**
@@ -46,7 +62,7 @@ public class ReplyKeyboardService {
      * @param maxButtonPerRow максимальное число кнопок в ряду
      * @return клавиатуру с кнопками
      */
-    private ReplyKeyboardMarkup getReplyKeyboardMarkup (List <String> buttons,int maxButtonPerRow){
+    private ReplyKeyboardMarkup createReplyKeyboardMarkup(List <String> buttons, int maxButtonPerRow){
         ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
         keyboardMarkup.setResizeKeyboard(true);
 
@@ -72,4 +88,6 @@ public class ReplyKeyboardService {
         keyboardMarkup.setKeyboard(keyboardRows);
         return keyboardMarkup;
     }
+
+
 }

@@ -7,6 +7,7 @@ import com.cybervet.model.dto.PetDto;
 import com.cybervet.model.enums.ActivityLevel;
 import com.cybervet.model.enums.UserState;
 import com.cybervet.service.InlineKeyboardService;
+import com.cybervet.service.PetService;
 import com.cybervet.service.ReplyKeyboardService;
 import com.cybervet.service.StateService;
 import lombok.RequiredArgsConstructor;
@@ -19,31 +20,26 @@ import java.util.HashMap;
 @RequiredArgsConstructor
 public class SavingPetHandler implements MessageHandler {
     private final StateService stateService;
-    private final ReplyKeyboardService replyKeyboardService;
-    private final InlineKeyboardService inlineKeyboardService;
+    private final PetService petService;
 
     @Override
     public AppUserResponseDto handle(long chatId, String message) {
         AppUserResponseDto response = new AppUserResponseDto();
         response.setChatId(chatId);
-
-        try{
-            setActivity(chatId, message);
-        } catch (Exception e) {
-            response.setMessage("Выберите ниже активность питомца");
-            return response;
-        }
-
+        setActivity(chatId, message);
         response.setMessage("Ваш питомец сохранен");
-        stateService.
+        stateService.setState(chatId, UserState.MAIN_MENU);
+        return response;
     }
 
     @Override
     public boolean supports(String message) {
-        return false;
+        return message.equals("Высокая")
+                || message.equals("Средняя")
+                || message.equals("Низкая");
     }
 
-    private void setActivity(long chatId, String activity) throws Exception {
+    private void setActivity(long chatId, String activity){
         HashMap<Long, PetDto> pets = stateService.getPets();
         PetDto pet = pets.get(chatId);
 
@@ -59,11 +55,9 @@ public class SavingPetHandler implements MessageHandler {
             case "Низкая":
                 pet.setActivityLevel(ActivityLevel.LOW);
                 break;
-
-            default:
-                throw new Exception();
         }
-
+        System.out.println(pet);
+        petService.save(pet);
 
     }
 }

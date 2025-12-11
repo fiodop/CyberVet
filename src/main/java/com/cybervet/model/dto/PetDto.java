@@ -18,4 +18,5 @@ public class PetDto {
     private double weight;
     private ActivityLevel activityLevel;
     private String energySource;
+    private long chatId;
 }

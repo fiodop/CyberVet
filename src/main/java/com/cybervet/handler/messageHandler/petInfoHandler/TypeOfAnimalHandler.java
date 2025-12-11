@@ -41,6 +41,7 @@ public class TypeOfAnimalHandler implements MessageHandler {
 
     private void setName(long chatId, String name) {
         PetDto pet = new PetDto();
+        pet.setChatId(chatId);
         pet.setName(name);
         HashMap <Long, PetDto> pets = stateService.getPets();
         pets.put(chatId, pet);

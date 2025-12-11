@@ -13,11 +13,16 @@ public class AppUser {
     private int id;
     private String username;
     private long telegramId;
+    private long chatId;
     @OneToMany(cascade = CascadeType.ALL)
-    private ArrayList<Pet> petList;
+    private ArrayList<Pet> petList = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL)
-    private ArrayList<Feedback> feedbackList;
+    private ArrayList<Feedback> feedbackList = new ArrayList<>();
 
-    public AppUser(String username, long telegramId) {}
+    public AppUser(String username, long telegramId, long chatId) {}
+
+    public AppUser() {
+
+    }
 }

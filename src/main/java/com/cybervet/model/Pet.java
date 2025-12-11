@@ -23,6 +23,7 @@ public class Pet {
     private double weight;
     private ActivityLevel activityLevel;
     private String energySource;
+
     @OneToOne(cascade = CascadeType.ALL)
     private Diet diet;
     private LocalDateTime createdAt;

@@ -2,7 +2,7 @@ package com.cybervet.handler.messageHandler.petInfoHandler;
 
 import com.cybervet.annotation.HandlerForState;
 import com.cybervet.handler.messageHandler.MessageHandler;
-import com.cybervet.model.dto.AppUserResponseDto;
+import com.cybervet.model.dto.ResponseDto;
 import com.cybervet.model.enums.UserState;
 import com.cybervet.service.InlineKeyboardService;
 import com.cybervet.service.StateService;
@@ -17,8 +17,8 @@ public class AddPetHandler implements MessageHandler {
     private final InlineKeyboardService inlineKeyboardService;
 
     @Override
-    public AppUserResponseDto handle(long chatId, String message) {
-        AppUserResponseDto response = new AppUserResponseDto();
+    public ResponseDto handle(long chatId, String message) {
+        ResponseDto response = new ResponseDto();
         response.setChatId(chatId);
         response.setMessage("Отправьте кличку своего питомца");
         response.setInlineKeyboardMarkup(inlineKeyboardService.getCancelButtonKeyboard());

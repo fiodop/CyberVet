@@ -1,10 +1,10 @@
 package com.cybervet.service;
 
 import com.cybervet.config.Config;
+import com.cybervet.dispatcher.CallBackDispatcher;
 import com.cybervet.dispatcher.CommandDispatcher;
 import com.cybervet.dispatcher.MessageDispatcher;
-import com.cybervet.model.dto.AppUserResponseDto;
-import com.cybervet.model.enums.UserState;
+import com.cybervet.model.dto.ResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -13,8 +13,6 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import java.util.HashMap;
-
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -22,6 +20,7 @@ public class TelegramBot extends TelegramLongPollingBot {
     private final Config config;
     private final CommandDispatcher commandDispatcher;
     private final MessageDispatcher messageDispatcher;
+    private final CallBackDispatcher callBackDispatcher;
 
 
 
@@ -37,24 +36,27 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        if (!update.hasMessage() || !update.getMessage().hasText())
-            return;
+        if (!update.hasMessage() || !update.getMessage().hasText()) {
 
-        String message = update.getMessage().getText();
-        Long chatId = update.getMessage().getChatId();
+            String message = update.getMessage().getText();
+            Long chatId = update.getMessage().getChatId();
 
-        if (message.startsWith("/")) {
-            AppUserResponseDto response = commandDispatcher.dispatch(message, chatId, update);
+            if (message.startsWith("/")) {
+                ResponseDto response = commandDispatcher.dispatch(message, chatId, update);
+                sendMessage(response);
+                return;
+            }
+
+
+            ResponseDto response = messageDispatcher.dispatch(chatId, message);
             sendMessage(response);
-            return;
+        } else if(update.getCallbackQuery() != null) {
+                ResponseDto responseDto = callBackDispatcher.dispatch(update);
+                sendMessage(responseDto);
         }
-
-
-        AppUserResponseDto response = messageDispatcher.dispatch(chatId, message);
-        sendMessage(response);
     }
 
-    public void sendMessage(AppUserResponseDto dto) {
+    public void sendMessage(ResponseDto dto) {
         SendMessage message = new SendMessage();
 
         message.setChatId(String.valueOf(dto.getChatId()));

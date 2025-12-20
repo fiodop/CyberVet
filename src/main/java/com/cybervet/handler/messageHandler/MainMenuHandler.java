@@ -1,7 +1,7 @@
 package com.cybervet.handler.messageHandler;
 
 import com.cybervet.annotation.HandlerForState;
-import com.cybervet.model.dto.AppUserResponseDto;
+import com.cybervet.model.dto.ResponseDto;
 import com.cybervet.model.enums.UserState;
 import com.cybervet.service.ReplyKeyboardService;
 
@@ -17,8 +17,8 @@ public class MainMenuHandler implements MessageHandler {
     private final ReplyKeyboardService replyKeyboardService;
 
     @Override
-    public AppUserResponseDto handle(long chatId, String message) {
-        AppUserResponseDto response = new AppUserResponseDto();
+    public ResponseDto handle(long chatId, String message) {
+        ResponseDto response = new ResponseDto();
         response.setChatId(chatId);
         response.setMessage("Выберите действие");
         response.setReplyKeyboardMarkup(

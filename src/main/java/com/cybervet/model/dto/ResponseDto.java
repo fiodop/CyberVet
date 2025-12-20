@@ -6,17 +6,17 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 @Getter
 @Setter
-public class AppUserResponseDto {
+public class ResponseDto {
     private long chatId;
     private String message;
     private ReplyKeyboardMarkup replyKeyboardMarkup;
     private InlineKeyboardMarkup inlineKeyboardMarkup;
 
-    public AppUserResponseDto(long chatId, String message){
+    public ResponseDto(long chatId, String message){
         this.chatId = chatId;
         this.message = message;
     }
 
-    public AppUserResponseDto(){
+    public ResponseDto(){
     }
 }

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -17,8 +18,8 @@ public class AppUser {
     @OneToMany(cascade = CascadeType.ALL)
     private ArrayList<Pet> petList = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private ArrayList<Feedback> feedbackList = new ArrayList<>();
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Feedback> feedbackList = new ArrayList<>();
 
     public AppUser(String username, long telegramId, long chatId) {}
 

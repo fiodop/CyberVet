@@ -1,7 +1,6 @@
 package com.cybervet.handler.commandHandler;
 
-import com.cybervet.model.AppUser;
-import com.cybervet.model.dto.AppUserResponseDto;
+import com.cybervet.model.dto.ResponseDto;
 import com.cybervet.model.enums.UserState;
 import com.cybervet.service.ReplyKeyboardService;
 import com.cybervet.service.StateService;
@@ -23,14 +22,14 @@ public class StartCommandHandler implements CommandHandler {
     }
 
     @Override
-    public AppUserResponseDto handle(String command, long chatId, Update update) {
-        AppUserResponseDto response = new AppUserResponseDto(update.getMessage().getChatId(),
+    public ResponseDto handle(String command, long chatId, Update update) {
+        ResponseDto response = new ResponseDto(update.getMessage().getChatId(),
                 "Привет! Это бот CyberVet!");
         ReplyKeyboardService replyKeyboardService = new ReplyKeyboardService();
         response.setReplyKeyboardMarkup(replyKeyboardService.getMainMenuReplyKeyboard());
 
         stateService.setState(chatId, UserState.MAIN_MENU);
-
+        registerUser(update);
         return response;
     }
 

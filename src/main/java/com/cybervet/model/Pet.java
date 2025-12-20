@@ -24,7 +24,7 @@ public class Pet {
     private ActivityLevel activityLevel;
     private String energySource;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     private Diet diet;
     private LocalDateTime createdAt;
 }

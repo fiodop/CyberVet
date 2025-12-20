@@ -2,7 +2,7 @@ package com.cybervet.handler.messageHandler.petInfoHandler;
 
 import com.cybervet.annotation.HandlerForState;
 import com.cybervet.handler.messageHandler.MessageHandler;
-import com.cybervet.model.dto.AppUserResponseDto;
+import com.cybervet.model.dto.ResponseDto;
 import com.cybervet.model.dto.PetDto;
 import com.cybervet.model.enums.UserState;
 import com.cybervet.service.InlineKeyboardService;
@@ -23,8 +23,8 @@ public class PetActivityHandler implements MessageHandler {
 
 
     @Override
-    public AppUserResponseDto handle(long chatId, String message) {
-        AppUserResponseDto response = new AppUserResponseDto();
+    public ResponseDto handle(long chatId, String message) {
+        ResponseDto response = new ResponseDto();
         response.setChatId(chatId);
         try{
             setWeight(chatId, message);

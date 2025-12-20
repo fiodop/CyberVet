@@ -2,7 +2,7 @@ package com.cybervet.handler.messageHandler.petInfoHandler;
 
 import com.cybervet.annotation.HandlerForState;
 import com.cybervet.handler.messageHandler.MessageHandler;
-import com.cybervet.model.dto.AppUserResponseDto;
+import com.cybervet.model.dto.ResponseDto;
 import com.cybervet.model.dto.PetDto;
 import com.cybervet.model.enums.UserState;
 import com.cybervet.service.InlineKeyboardService;
@@ -21,10 +21,10 @@ public class PetAgeHandler implements MessageHandler {
 
 
     @Override
-    public AppUserResponseDto handle(long chatId, String message) {
+    public ResponseDto handle(long chatId, String message) {
         setBreed(chatId, message);
 
-        AppUserResponseDto responseDto = new AppUserResponseDto();
+        ResponseDto responseDto = new ResponseDto();
         responseDto.setChatId(chatId);
         responseDto.setMessage("Введите возраст вашего питомца");
         stateService.setState(chatId, UserState.ASKING_WEIGHT);

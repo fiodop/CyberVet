@@ -1,6 +1,6 @@
 package com.cybervet.handler.messageHandler;
 
-import com.cybervet.model.dto.AppUserResponseDto;
+import com.cybervet.model.dto.ResponseDto;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -8,7 +8,7 @@ public class CreateDietHandler implements MessageHandler {
 
 
     @Override
-    public AppUserResponseDto handle(long chatId, String message) {
+    public ResponseDto handle(long chatId, String message) {
         return null;
     }
 

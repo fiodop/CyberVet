@@ -19,18 +19,15 @@ public class UserService {
      * @param update - объект класса Update из Telegram bot api
      */
     public void register(Update update) {
-        Long telegramId = update.getMessage().getFrom().getId();
-        AppUser user = userRepository.findByTelegramId(telegramId);
+        long telegramId = update.getMessage().getFrom().getId();
+        AppUser user = new AppUser(
+                update.getMessage().getFrom().getUserName(),
+                telegramId,
+                update.getMessage().getChatId()
 
-        if (user == null) {
-            user = new AppUser(
-                    update.getMessage().getFrom().getUserName(),
-                    telegramId,
-                    update.getMessage().getChatId()
-
-            );
-
-        }
+        );
         userRepository.save(user);
+        System.out.println();
+        System.out.println("Сохранен пользователь: " + user);
     }
 }

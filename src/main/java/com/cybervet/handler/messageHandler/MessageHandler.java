@@ -1,8 +1,8 @@
 package com.cybervet.handler.messageHandler;
 
-import com.cybervet.model.dto.AppUserResponseDto;
+import com.cybervet.model.dto.ResponseDto;
 
 public interface MessageHandler {
-    AppUserResponseDto handle(long chatId, String message);
+    ResponseDto handle(long chatId, String message);
     boolean supports(String message);
 }

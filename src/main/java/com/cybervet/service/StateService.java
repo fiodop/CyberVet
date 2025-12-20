@@ -23,8 +23,6 @@ public class StateService {
         states.put(chatId, state);
     }
 
-    public boolean isNewUser(long chatId) {
-        return getState(chatId) == null;
-    }
+
 }
 

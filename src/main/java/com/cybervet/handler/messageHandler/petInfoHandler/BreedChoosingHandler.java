@@ -3,7 +3,7 @@ package com.cybervet.handler.messageHandler.petInfoHandler;
 
 import com.cybervet.annotation.HandlerForState;
 import com.cybervet.handler.messageHandler.MessageHandler;
-import com.cybervet.model.dto.AppUserResponseDto;
+import com.cybervet.model.dto.ResponseDto;
 import com.cybervet.model.dto.PetDto;
 import com.cybervet.model.enums.Type;
 import com.cybervet.model.enums.UserState;
@@ -24,10 +24,10 @@ public class BreedChoosingHandler implements MessageHandler {
     private final InlineKeyboardService inlineKeyboardService;
 
     @Override
-    public AppUserResponseDto handle(long chatId, String message) {
+    public ResponseDto handle(long chatId, String message) {
 
         if (!message.equals("🐕Собака") && !message.equals("🐈Кошка")) {
-            AppUserResponseDto wrong = new AppUserResponseDto();
+            ResponseDto wrong = new ResponseDto();
             wrong.setChatId(chatId);
             wrong.setMessage("Пожалуйста, выберите один из вариантов ниже");
             return wrong;
@@ -35,15 +35,15 @@ public class BreedChoosingHandler implements MessageHandler {
 
         setType(chatId, message);
 
-        AppUserResponseDto response = getResponse(chatId, message);
+        ResponseDto response = getResponse(chatId, message);
 
         stateService.setState(chatId, UserState.ASKING_AGE);
 
         return response;
     }
 
-    private AppUserResponseDto getResponse(long chatId, String message) {
-        AppUserResponseDto response = new AppUserResponseDto();
+    private ResponseDto getResponse(long chatId, String message) {
+        ResponseDto response = new ResponseDto();
         response.setChatId(chatId);
         response.setInlineKeyboardMarkup(inlineKeyboardService.getCancelButtonKeyboard());
         if (message.equals("🐕Собака")) {

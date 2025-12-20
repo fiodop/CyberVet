@@ -11,7 +11,7 @@ import java.util.Map;
 @Repository
 public interface UserRepository extends JpaRepository<AppUser, Integer> {
 
-    AppUser findByTelegramId(long telegramId);
+
 
     AppUser getAppUserByChatId(long chatId);
 }

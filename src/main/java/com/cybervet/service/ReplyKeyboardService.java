@@ -10,6 +10,15 @@ import java.util.List;
 @Service
 public class ReplyKeyboardService {
 
+    public ReplyKeyboardMarkup getPhysiologicalStateKeyboard(){
+        ArrayList<String> states = new ArrayList<>();
+        states.add("Беременная");
+        states.add("Кастрирован(а)");
+        states.add("Нормальное состояние");
+
+        return createReplyKeyboardMarkup(states, 1);
+    }
+
     public ReplyKeyboardMarkup getDogBreedKeyboard() {
         ArrayList<String> breeds = new ArrayList<>();
         breeds.add("Домашняя");

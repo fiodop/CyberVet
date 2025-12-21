@@ -20,7 +20,7 @@ public class CancelButtonCallBackHandler implements CallBackHandler {
 
     @Override
     public ResponseDto handle(Update update) {
-        long chatId = update.getMessage().getChatId();
+        long chatId = update.getCallbackQuery().getMessage().getChatId();
 
         stateService.setState(chatId, UserState.MAIN_MENU);
         ResponseDto responseDto = new ResponseDto(chatId, "Выберите действие");

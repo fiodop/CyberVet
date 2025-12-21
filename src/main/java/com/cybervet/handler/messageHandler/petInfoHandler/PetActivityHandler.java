@@ -29,14 +29,14 @@ public class PetActivityHandler implements MessageHandler {
         try{
             setWeight(chatId, message);
         } catch (Exception e){
-            response.setMessage("Введите число — возраст питомца");
+            response.setMessage("Введите число — вес питомца");
             return response;
         }
         response.setMessage("Выберите активность питомца");
         response.setReplyKeyboardMarkup(replyKeyboardService.getActivityKeyboard());
         response.setInlineKeyboardMarkup(inlineKeyboardService.getCancelButtonKeyboard());
 
-        stateService.setState(chatId, UserState.SAVING_PET);
+        stateService.setState(chatId, UserState.CHOOSING_PHYSIOLOGICAL_STATE);
         return response;
     }
 

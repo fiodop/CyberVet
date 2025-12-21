@@ -15,13 +15,19 @@ public class AppUser {
     private String username;
     private long telegramId;
     private long chatId;
-    @OneToMany(cascade = CascadeType.ALL)
-    private ArrayList<Pet> petList = new ArrayList<>();
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Pet> petList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Feedback> feedbackList = new ArrayList<>();
 
-    public AppUser(String username, long telegramId, long chatId) {}
+    public AppUser(String username, long telegramId, long chatId, List<Pet> petList, List<Feedback> feedbackList) {
+        this.username = username;
+        this.telegramId = telegramId;
+        this.chatId = chatId;
+        this.petList = petList;
+        this.feedbackList = feedbackList;
+    }
 
     public AppUser() {
 

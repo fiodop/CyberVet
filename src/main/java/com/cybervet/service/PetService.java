@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -18,19 +19,13 @@ public class PetService {
     private final UserRepository userRepository;
 
     public void save(PetDto petDto) {
-        Pet pet = new Pet();
-        pet.setName(petDto.getName());
-        pet.setAge(petDto.getAge());
-        pet.setActivityLevel(petDto.getActivityLevel());
-        pet.setBreed(petDto.getBreed());
-        pet.setType(petDto.getType());
-        pet.setCreatedAt(LocalDateTime.now());
+        Pet pet = new Pet(petDto);
+
 
         AppUser user = userRepository.getAppUserByChatId(petDto.getChatId());
-        ArrayList<Pet> pets = user.getPetList();
+        List<Pet> pets = user.getPetList();
         pets.add(pet);
         user.setPetList(pets);
         userRepository.save(user);
-        petRepository.save(pet);
     }
 }

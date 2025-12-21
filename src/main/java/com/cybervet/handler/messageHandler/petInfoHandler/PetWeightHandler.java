@@ -36,7 +36,7 @@ public class PetWeightHandler implements MessageHandler {
 
         stateService.setState(chatId, UserState.ASKING_ACTIVITY);
 
-        response.setMessage("Введите вес питомца");
+        response.setMessage("Введите вес питомца в килограммах");
         response.setInlineKeyboardMarkup(inlineKeyboardService.getCancelButtonKeyboard());
         return response;
     }

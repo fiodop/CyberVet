@@ -1,5 +1,7 @@
 package com.cybervet.model;
 
+import com.cybervet.model.dto.PetDto;
+import com.cybervet.model.enums.PhysiologicalState;
 import jakarta.persistence.*;
 import lombok.Data;
 import com.cybervet.model.enums.ActivityLevel;
@@ -23,8 +25,29 @@ public class Pet {
     private double weight;
     private ActivityLevel activityLevel;
     private String energySource;
-
+    private PhysiologicalState physiologicalState;
+    @ManyToOne
+    private AppUser owner;
     @ManyToOne(cascade = CascadeType.ALL)
     private Diet diet;
     private LocalDateTime createdAt;
+
+    public Pet() {}
+
+    public Pet(PetDto petDto) {
+        this.name = petDto.getName();
+        this.breed = petDto.getBreed();
+        this.gender = petDto.getGender();
+        this.type = petDto.getType();
+        this.condition = petDto.getCondition();
+        this.age = petDto.getAge();
+        this.weight = petDto.getWeight();
+        this.activityLevel = petDto.getActivityLevel();
+        this.energySource = petDto.getEnergySource();
+        this.physiologicalState = petDto.getPhysiologicalState();
+        this.createdAt = LocalDateTime.now();
+    }
+
 }
+
+

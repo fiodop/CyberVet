@@ -2,6 +2,7 @@ package com.cybervet.model.dto;
 
 import com.cybervet.model.enums.ActivityLevel;
 import com.cybervet.model.enums.Condition;
+import com.cybervet.model.enums.PhysiologicalState;
 import com.cybervet.model.enums.Type;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,4 +20,5 @@ public class PetDto {
     private ActivityLevel activityLevel;
     private String energySource;
     private long chatId;
+    private PhysiologicalState physiologicalState;
 }

@@ -36,25 +36,33 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        if (!update.hasMessage() || !update.getMessage().hasText()) {
+        System.out.println("Update received: " + update);
+
+        if (update.hasMessage() && update.getMessage().hasText()) {
 
             String message = update.getMessage().getText();
             Long chatId = update.getMessage().getChatId();
 
             if (message.startsWith("/")) {
-                ResponseDto response = commandDispatcher.dispatch(message, chatId, update);
+                ResponseDto response =
+                        commandDispatcher.dispatch(message, chatId, update);
                 sendMessage(response);
                 return;
             }
 
-
-            ResponseDto response = messageDispatcher.dispatch(chatId, message);
+            ResponseDto response =
+                    messageDispatcher.dispatch(chatId, message);
             sendMessage(response);
-        } else if(update.getCallbackQuery() != null) {
-                ResponseDto responseDto = callBackDispatcher.dispatch(update);
-                sendMessage(responseDto);
+            return;
+        }
+
+        if (update.hasCallbackQuery()) {
+            ResponseDto response =
+                    callBackDispatcher.dispatch(update);
+            sendMessage(response);
         }
     }
+
 
     public void sendMessage(ResponseDto dto) {
         SendMessage message = new SendMessage();

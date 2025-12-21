@@ -16,5 +16,5 @@ public class Feedback {
     private LocalDateTime createdAt;
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private AppUser owner;
+    private AppUser user;
 }

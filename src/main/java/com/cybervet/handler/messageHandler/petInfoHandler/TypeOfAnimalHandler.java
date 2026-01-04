@@ -5,12 +5,13 @@ import com.cybervet.handler.messageHandler.MessageHandler;
 import com.cybervet.model.dto.ResponseDto;
 import com.cybervet.model.dto.PetDto;
 import com.cybervet.model.enums.UserState;
-import com.cybervet.service.InlineKeyboardService;
-import com.cybervet.service.ReplyKeyboardService;
-import com.cybervet.service.StateService;
+import com.cybervet.service.keyboard.InlineKeyboardService;
+import com.cybervet.service.keyboard.ReplyKeyboardService;
+import com.cybervet.service.model.StateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 @Component
@@ -22,7 +23,7 @@ public class TypeOfAnimalHandler implements MessageHandler {
     private final InlineKeyboardService inlineKeyboardService;
 
     @Override
-    public ResponseDto handle(long chatId, String message) {
+    public ArrayList<ResponseDto> handle(long chatId, String message) {
 
         setName(chatId, message);
         ResponseDto response = new ResponseDto();
@@ -31,7 +32,10 @@ public class TypeOfAnimalHandler implements MessageHandler {
         response.setReplyKeyboardMarkup(replyKeyboardService.getTypesOfAnimalsKeyboard());
         response.setInlineKeyboardMarkup(inlineKeyboardService.getCancelButtonKeyboard());
         stateService.setState(chatId, UserState.CHOOSING_BREED);
-        return response;
+
+        ArrayList<ResponseDto> responses = new ArrayList<>();
+        responses.add(response);
+        return responses;
     }
 
     @Override

@@ -13,6 +13,8 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.util.ArrayList;
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -50,7 +52,7 @@ public class TelegramBot extends TelegramLongPollingBot {
                 return;
             }
 
-            ResponseDto response =
+            ArrayList<ResponseDto> response =
                     messageDispatcher.dispatch(chatId, message);
             sendMessage(response);
             return;
@@ -63,7 +65,28 @@ public class TelegramBot extends TelegramLongPollingBot {
         }
     }
 
+    public void sendMessage(ArrayList<ResponseDto> response) {
+        for (ResponseDto dto : response) {
+            SendMessage message = new SendMessage();
 
+            message.setChatId(String.valueOf(dto.getChatId()));
+            message.setText(dto.getMessage());
+
+            if (dto.getInlineKeyboardMarkup() != null) {
+                message.setReplyMarkup(dto.getInlineKeyboardMarkup());
+            }
+
+            if (dto.getReplyKeyboardMarkup() != null) {
+                message.setReplyMarkup(dto.getReplyKeyboardMarkup());
+            }
+            log.info("|chatId: {} |Sending {}", dto.getChatId(), message.getText());
+            try {
+                execute(message);
+            } catch (TelegramApiException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
     public void sendMessage(ResponseDto dto) {
         SendMessage message = new SendMessage();
 

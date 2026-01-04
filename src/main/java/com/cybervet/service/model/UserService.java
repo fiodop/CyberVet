@@ -1,4 +1,4 @@
-package com.cybervet.service;
+package com.cybervet.service.model;
 
 import com.cybervet.model.AppUser;
 import com.cybervet.model.Feedback;
@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 @Service
@@ -40,5 +39,10 @@ public class UserService {
         userRepository.save(user);
         System.out.println();
         System.out.println("Сохранен пользователь: " + user);
+    }
+
+    @Transactional
+    public AppUser getUserByChatId(long chatId) {
+        return userRepository.getAppUserByChatId(chatId);
     }
 }

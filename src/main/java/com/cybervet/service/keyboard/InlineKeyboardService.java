@@ -1,4 +1,4 @@
-package com.cybervet.service;
+package com.cybervet.service.keyboard;
 
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 public class InlineKeyboardService {
 
-
+    public InlineKeyboardMarkup getCreateDiet;
 
     public InlineKeyboardMarkup getCancelButtonKeyboard(){
         HashMap<String, String> backButton = new HashMap<>();

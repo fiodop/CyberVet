@@ -1,4 +1,4 @@
-package com.cybervet.service;
+package com.cybervet.service.keyboard;
 
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
@@ -9,6 +9,15 @@ import java.util.List;
 
 @Service
 public class ReplyKeyboardService {
+
+    public ReplyKeyboardMarkup getAgeKeyboard() {
+        ArrayList<String> age = new ArrayList<>();
+        age.add("До 2 месяцев");
+        age.add("До года");
+        age.add("До 5 лет");
+        age.add("Старше 5 лет");
+        return createReplyKeyboardMarkup(age, 1);
+    }
 
     public ReplyKeyboardMarkup getPhysiologicalStateKeyboard(){
         ArrayList<String> states = new ArrayList<>();
@@ -21,14 +30,17 @@ public class ReplyKeyboardService {
 
     public ReplyKeyboardMarkup getDogBreedKeyboard() {
         ArrayList<String> breeds = new ArrayList<>();
-        breeds.add("Домашняя");
+        breeds.add("Маленькая");
+        breeds.add("Средняя");
+        breeds.add("Крупная");
         return createReplyKeyboardMarkup(breeds, 2);
     }
 
     public ReplyKeyboardMarkup getCatBreedKeyboard() {
         ArrayList<String> breeds = new ArrayList<>();
-        breeds.add("Домашняя");
-        breeds.add("Пидорская");
+        breeds.add("Маленькая");
+        breeds.add("Средняя");
+        breeds.add("Крупная");
         return createReplyKeyboardMarkup(breeds, 2);
     }
 
@@ -39,12 +51,11 @@ public class ReplyKeyboardService {
      */
     public ReplyKeyboardMarkup getMainMenuReplyKeyboard() {
         ArrayList<String> buttons = new ArrayList<>();
-        buttons.add("Создать рацион");
-        buttons.add("Мои рационы");
-        buttons.add("Оставить отзыв");
-        buttons.add("Добавить питомца");
 
-        return createReplyKeyboardMarkup(buttons, 2);
+        buttons.add("Оставить отзыв");
+        buttons.add("Мои питомцы");
+
+        return createReplyKeyboardMarkup(buttons, 1);
     }
 
     public ReplyKeyboardMarkup getTypesOfAnimalsKeyboard() {

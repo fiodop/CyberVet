@@ -2,8 +2,8 @@ package com.cybervet.handler.callBackHandler;
 
 import com.cybervet.model.dto.ResponseDto;
 import com.cybervet.model.enums.UserState;
-import com.cybervet.service.ReplyKeyboardService;
-import com.cybervet.service.StateService;
+import com.cybervet.service.keyboard.ReplyKeyboardService;
+import com.cybervet.service.model.StateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;

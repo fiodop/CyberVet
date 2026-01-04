@@ -3,12 +3,14 @@ package com.cybervet.handler.messageHandler;
 import com.cybervet.model.dto.ResponseDto;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+
 @Component
 public class CreateDietHandler implements MessageHandler {
 
 
     @Override
-    public ResponseDto handle(long chatId, String message) {
+    public ArrayList<ResponseDto> handle(long chatId, String message) {
         return null;
     }
 

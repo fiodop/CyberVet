@@ -6,11 +6,12 @@ import com.cybervet.model.dto.PetDto;
 import com.cybervet.model.dto.ResponseDto;
 import com.cybervet.model.enums.ActivityLevel;
 import com.cybervet.model.enums.UserState;
-import com.cybervet.service.ReplyKeyboardService;
-import com.cybervet.service.StateService;
+import com.cybervet.service.keyboard.ReplyKeyboardService;
+import com.cybervet.service.model.StateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 @Component
@@ -21,14 +22,17 @@ public class PetPhysiologicalStateHandler implements MessageHandler {
     private final StateService stateService;
     private final ReplyKeyboardService replyKeyboardService;
     @Override
-    public ResponseDto handle(long chatId, String message) {
+    public ArrayList<ResponseDto> handle(long chatId, String message) {
         setActivity(chatId, message);
         ResponseDto responseDto = new ResponseDto();
         responseDto.setChatId(chatId);
         responseDto.setMessage("Выберите физиологическое состояние питомца");
         responseDto.setReplyKeyboardMarkup(replyKeyboardService.getPhysiologicalStateKeyboard());
         stateService.setState(chatId, UserState.SAVING_PET);
-        return responseDto;
+
+        ArrayList<ResponseDto> responses = new ArrayList<>();
+        responses.add(responseDto);
+        return responses;
 
 
     }

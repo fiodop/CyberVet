@@ -1,4 +1,4 @@
-package com.cybervet.service;
+package com.cybervet.service.model;
 
 import com.cybervet.model.dto.PetDto;
 import com.cybervet.model.enums.UserState;

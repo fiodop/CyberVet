@@ -5,14 +5,15 @@ import com.cybervet.annotation.HandlerForState;
 import com.cybervet.handler.messageHandler.MessageHandler;
 import com.cybervet.model.dto.ResponseDto;
 import com.cybervet.model.dto.PetDto;
-import com.cybervet.model.enums.Type;
+import com.cybervet.model.enums.TypeOfAnimal;
 import com.cybervet.model.enums.UserState;
-import com.cybervet.service.InlineKeyboardService;
-import com.cybervet.service.ReplyKeyboardService;
-import com.cybervet.service.StateService;
+import com.cybervet.service.keyboard.InlineKeyboardService;
+import com.cybervet.service.keyboard.ReplyKeyboardService;
+import com.cybervet.service.model.StateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 @Component
@@ -24,22 +25,23 @@ public class BreedChoosingHandler implements MessageHandler {
     private final InlineKeyboardService inlineKeyboardService;
 
     @Override
-    public ResponseDto handle(long chatId, String message) {
-
+    public ArrayList<ResponseDto> handle(long chatId, String message) {
+        ArrayList<ResponseDto> responses = new ArrayList<>();
         if (!message.equals("🐕Собака") && !message.equals("🐈Кошка")) {
             ResponseDto wrong = new ResponseDto();
             wrong.setChatId(chatId);
             wrong.setMessage("Пожалуйста, выберите один из вариантов ниже");
-            return wrong;
+            responses.add(wrong);
+            return responses;
         }
 
         setType(chatId, message);
 
         ResponseDto response = getResponse(chatId, message);
-
+        responses.add(response);
         stateService.setState(chatId, UserState.ASKING_AGE);
 
-        return response;
+        return responses;
     }
 
     private ResponseDto getResponse(long chatId, String message) {
@@ -72,9 +74,9 @@ public class BreedChoosingHandler implements MessageHandler {
         }
 
         if (type.equals("🐕Собака")) {
-            pet.setType(Type.DOG);
+            pet.setTypeOfAnimal(TypeOfAnimal.DOG);
         } else {
-            pet.setType(Type.CAT);
+            pet.setTypeOfAnimal(TypeOfAnimal.CAT);
         }
 
         pets.put(chatId, pet);

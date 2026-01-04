@@ -5,12 +5,13 @@ import com.cybervet.handler.messageHandler.MessageHandler;
 import com.cybervet.model.dto.ResponseDto;
 import com.cybervet.model.dto.PetDto;
 import com.cybervet.model.enums.UserState;
-import com.cybervet.service.InlineKeyboardService;
-import com.cybervet.service.ReplyKeyboardService;
-import com.cybervet.service.StateService;
+import com.cybervet.service.keyboard.InlineKeyboardService;
+import com.cybervet.service.keyboard.ReplyKeyboardService;
+import com.cybervet.service.model.StateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 @Component
@@ -23,21 +24,23 @@ public class PetActivityHandler implements MessageHandler {
 
 
     @Override
-    public ResponseDto handle(long chatId, String message) {
+    public ArrayList<ResponseDto> handle(long chatId, String message) {
+        ArrayList<ResponseDto> responses = new ArrayList<>();
         ResponseDto response = new ResponseDto();
         response.setChatId(chatId);
         try{
             setWeight(chatId, message);
         } catch (Exception e){
             response.setMessage("Введите число — вес питомца");
-            return response;
+            responses.add(response);
+            return responses;
         }
         response.setMessage("Выберите активность питомца");
         response.setReplyKeyboardMarkup(replyKeyboardService.getActivityKeyboard());
         response.setInlineKeyboardMarkup(inlineKeyboardService.getCancelButtonKeyboard());
-
+        responses.add(response);
         stateService.setState(chatId, UserState.CHOOSING_PHYSIOLOGICAL_STATE);
-        return response;
+        return responses;
     }
 
     @Override

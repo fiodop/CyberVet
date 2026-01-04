@@ -4,15 +4,14 @@ import com.cybervet.annotation.HandlerForState;
 import com.cybervet.handler.messageHandler.MessageHandler;
 import com.cybervet.model.dto.ResponseDto;
 import com.cybervet.model.dto.PetDto;
-import com.cybervet.model.enums.ActivityLevel;
 import com.cybervet.model.enums.PhysiologicalState;
 import com.cybervet.model.enums.UserState;
-import com.cybervet.service.PetService;
-import com.cybervet.service.StateService;
+import com.cybervet.service.model.PetService;
+import com.cybervet.service.model.StateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 @Component
 @HandlerForState(UserState.SAVING_PET)
@@ -22,7 +21,7 @@ public class SavingPetHandler implements MessageHandler {
     private final PetService petService;
 
     @Override
-    public ResponseDto handle(long chatId, String message) {
+    public ArrayList<ResponseDto> handle(long chatId, String message) {
         setPhysiologicalState(chatId, message);
 
 
@@ -31,7 +30,10 @@ public class SavingPetHandler implements MessageHandler {
         response.setChatId(chatId);
         response.setMessage("Ваш питомец сохранен");
         stateService.setState(chatId, UserState.MAIN_MENU);
-        return response;
+
+        ArrayList<ResponseDto> responses = new ArrayList<>();
+        responses.add(response);
+        return responses;
     }
 
     @Override

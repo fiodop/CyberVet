@@ -1,9 +1,6 @@
 package com.cybervet.model.dto;
 
-import com.cybervet.model.enums.ActivityLevel;
-import com.cybervet.model.enums.Condition;
-import com.cybervet.model.enums.PhysiologicalState;
-import com.cybervet.model.enums.Type;
+import com.cybervet.model.enums.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,9 +10,9 @@ public class PetDto {
     private String name;
     private String breed;
     private String gender;
-    private Type type;
+    private TypeOfAnimal typeOfAnimal;
     private Condition condition;
-    private int age;
+    private PetAge age;
     private double weight;
     private ActivityLevel activityLevel;
     private String energySource;

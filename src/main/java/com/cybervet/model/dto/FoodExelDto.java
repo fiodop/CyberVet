@@ -1,23 +1,23 @@
 package com.cybervet.model.dto;
 
-import com.cybervet.model.enums.ActivityLevel;
-import com.cybervet.model.enums.PetAge;
-import com.cybervet.model.enums.PhysiologicalState;
-import com.cybervet.model.enums.TypeOfAnimal;
+import com.cybervet.model.enums.*;
 import lombok.Data;
 import org.apache.poi.ss.usermodel.Row;
 
 @Data
-public class FoodExelRow {
+public class FoodExelDto {
+    private String name;
+    private String description;
     private TypeOfAnimal typeOfAnimal;
     private String breed;
     private PetAge age;
     private PhysiologicalState physiologicalState;
     private ActivityLevel activityLevel;
     private String typeOfFood;
+    private PriceSegment priceSegment;
 
 
-    public FoodExelRow(Row row) {
+    public FoodExelDto(Row row) {
         if(row.getCell(0).getStringCellValue().equals("Кошка")){
             this.typeOfAnimal = TypeOfAnimal.CAT;
         } else if (row.getCell(0).getStringCellValue().equals("Собака")){
@@ -51,5 +51,17 @@ public class FoodExelRow {
         }
 
         this.typeOfFood = row.getCell(5).getStringCellValue();
+
+        String priceSegment = row.getCell(6).getStringCellValue();
+        switch (priceSegment) {
+            case "Эконом" -> this.priceSegment = PriceSegment.ECONOMY;
+            case "Суперпремиум" -> this.priceSegment = PriceSegment.SUPER_PREMIUM;
+            case "Холистик" -> this.priceSegment = PriceSegment.HOLISTIC;
+            default -> throw new IllegalArgumentException("Не поддерживается данный вид корма: " + priceSegment);
+        }
+
+        this.name = row.getCell(7).getStringCellValue();
+        this.description = row.getCell(8).getStringCellValue();
+
     }
 }

@@ -6,6 +6,7 @@ import com.cybervet.model.dto.PetDto;
 import com.cybervet.model.dto.ResponseDto;
 import com.cybervet.repositry.PetRepository;
 import com.cybervet.repositry.UserRepository;
+import com.cybervet.service.keyboard.InlineKeyboardService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import java.util.List;
 public class PetService {
     private final PetRepository petRepository;
     private final UserRepository userRepository;
+    private final InlineKeyboardService inlineKeyboardService;
     @Transactional
     public void save(PetDto petDto) {
         Pet pet = new Pet(petDto);
@@ -35,8 +37,9 @@ public class PetService {
         for (Pet pet : pets) {
             ResponseDto responseDto = new ResponseDto();
             if(pet.getDiet() == null) {
-                responseDto.setInlineKeyboardMarkup();
+                responseDto.setInlineKeyboardMarkup(inlineKeyboardService.createDiet());
             }
         }
+        return responses;
     }
 }

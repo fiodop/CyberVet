@@ -10,7 +10,14 @@ import java.util.List;
 @Service
 public class InlineKeyboardService {
 
-    public InlineKeyboardMarkup getCreateDiet;
+
+    public InlineKeyboardMarkup createDiet(){
+        HashMap<String, String> createDietButtons = new HashMap<>();
+        createDietButtons.put("Создать рацион", "CREATE_DIET");
+
+        return getInlineKeyboard(createDietButtons, 1);
+    }
+
 
     public InlineKeyboardMarkup getCancelButtonKeyboard(){
         HashMap<String, String> backButton = new HashMap<>();

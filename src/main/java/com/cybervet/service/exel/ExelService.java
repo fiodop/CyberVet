@@ -1,6 +1,6 @@
 package com.cybervet.service.exel;
 
-import com.cybervet.model.dto.FoodExelRow;
+import com.cybervet.model.dto.FoodExelDto;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -15,8 +15,8 @@ import java.util.List;
 @Service
 public class ExelService {
 
-    public List<FoodExelRow> readExel(InputStream inputStream) throws IOException {
-        List<FoodExelRow> foodExelRows = new ArrayList<FoodExelRow>();
+    public List<FoodExelDto> readExel(InputStream inputStream) throws IOException {
+        List<FoodExelDto> foodExelDtos = new ArrayList<FoodExelDto>();
 
         try (Workbook workbook = WorkbookFactory.create(inputStream)) {
             Sheet sheet = workbook.getSheetAt(0);
@@ -26,10 +26,10 @@ public class ExelService {
                 if(row == null) {
                     continue;
                 }
-                FoodExelRow dto = new FoodExelRow(row);
-                foodExelRows.add(dto);
+                FoodExelDto dto = new FoodExelDto(row);
+                foodExelDtos.add(dto);
             }
-            return foodExelRows;
+            return foodExelDtos;
 
         } catch (Exception e) {
         throw new RuntimeException("Ошибка чтения Excel-файла", e);

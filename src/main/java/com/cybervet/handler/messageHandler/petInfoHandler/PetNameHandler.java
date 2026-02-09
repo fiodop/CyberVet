@@ -14,7 +14,7 @@ import java.util.ArrayList;
 @Component
 @HandlerForState(UserState.ADDING_PET)
 @RequiredArgsConstructor
-public class AddPetHandler implements MessageHandler {
+public class PetNameHandler implements MessageHandler {
     private final StateService stateService;
     private final InlineKeyboardService inlineKeyboardService;
 

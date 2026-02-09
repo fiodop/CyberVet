@@ -1,6 +1,8 @@
 package com.cybervet.service.exel;
 
-import com.cybervet.model.dto.FoodExelDto;
+import com.cybervet.model.FoodExel;
+import com.cybervet.service.model.FoodExelService;
+import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -13,11 +15,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ExelService {
+    private final FoodExelService foodExelService;
 
-    public List<FoodExelDto> readExel(InputStream inputStream) throws IOException {
-        List<FoodExelDto> foodExelDtos = new ArrayList<FoodExelDto>();
-
+    public int readExel(InputStream inputStream) throws IOException {
+        int cnt = 0;
         try (Workbook workbook = WorkbookFactory.create(inputStream)) {
             Sheet sheet = workbook.getSheetAt(0);
 
@@ -26,13 +29,13 @@ public class ExelService {
                 if(row == null) {
                     continue;
                 }
-                FoodExelDto dto = new FoodExelDto(row);
-                foodExelDtos.add(dto);
+                FoodExel dto = new FoodExel(row);
+                foodExelService.save(dto);
+                cnt++;
             }
-            return foodExelDtos;
-
         } catch (Exception e) {
         throw new RuntimeException("Ошибка чтения Excel-файла", e);
     }
+        return cnt;
     }
 }

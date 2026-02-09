@@ -1,6 +1,6 @@
 package com.cybervet.service.model;
 
-import com.cybervet.model.AppUser;
+import com.cybervet.model.User;
 import com.cybervet.model.Pet;
 import com.cybervet.model.dto.PetDto;
 import com.cybervet.model.dto.ResponseDto;
@@ -25,21 +25,17 @@ public class PetService {
         Pet pet = new Pet(petDto);
 
 
-        AppUser user = userRepository.getAppUserByChatId(petDto.getChatId());
+        User user = userRepository.getAppUserByChatId(petDto.getChatId());
         List<Pet> pets = user.getPetList();
         pets.add(pet);
         user.setPetList(pets);
         userRepository.save(user);
     }
 
-    public ArrayList<ResponseDto> getPets(ArrayList<Pet> pets) {
-        ArrayList<ResponseDto> responses = new ArrayList<>();
-        for (Pet pet : pets) {
-            ResponseDto responseDto = new ResponseDto();
-            if(pet.getDiet() == null) {
-                responseDto.setInlineKeyboardMarkup(inlineKeyboardService.createDiet());
-            }
-        }
-        return responses;
+    @Transactional
+    public ArrayList<Pet> getPets(long chatId) {
+
+
+        return new ArrayList<>(petRepository.findAllByOwner_ChatId(chatId));
     }
 }

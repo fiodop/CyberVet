@@ -1,6 +1,6 @@
 package com.cybervet.service.model;
 
-import com.cybervet.model.AppUser;
+import com.cybervet.model.User;
 import com.cybervet.model.Feedback;
 import com.cybervet.model.Pet;
 import com.cybervet.repositry.UserRepository;
@@ -28,7 +28,7 @@ public class UserService {
         String username = update.getMessage().getFrom().getUserName();
         long chatId = update.getMessage().getChatId();
         System.out.println("Username : " + username);
-        AppUser user = new AppUser(
+        User user = new User(
                 username,
                 telegramId,
                 chatId,
@@ -42,7 +42,7 @@ public class UserService {
     }
 
     @Transactional
-    public AppUser getUserByChatId(long chatId) {
+    public User getUserByChatId(long chatId) {
         return userRepository.getAppUserByChatId(chatId);
     }
 }

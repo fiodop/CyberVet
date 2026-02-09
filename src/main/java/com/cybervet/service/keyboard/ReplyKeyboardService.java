@@ -9,11 +9,27 @@ import java.util.List;
 
 @Service
 public class ReplyKeyboardService {
+    public ReplyKeyboardMarkup getMeatTypeKeyboard() {
+        List<String> preferences = new ArrayList<>(List.of(
+                "Курица",
+                "Рыба",
+                "Красное мясо",
+                "Нет предпочтений",
+                "Индейка",
+                "Смешанный",
+                "Утка"
+        ));
+        return createReplyKeyboardMarkup(preferences, 3);
+    }
 
     public ReplyKeyboardMarkup getAgeKeyboard() {
         ArrayList<String> age = new ArrayList<>();
+        age.add("До 4 месяцев");
+        age.add("До 1 года");
+        age.add("До 7 лет");
+        age.add("До 12 лет");
+        age.add("Более 12 лет");
         age.add("До 2 месяцев");
-        age.add("До года");
         age.add("До 5 лет");
         age.add("Старше 5 лет");
         return createReplyKeyboardMarkup(age, 1);
@@ -54,6 +70,7 @@ public class ReplyKeyboardService {
 
         buttons.add("Оставить отзыв");
         buttons.add("Мои питомцы");
+        buttons.add("Добавить питомца");
 
         return createReplyKeyboardMarkup(buttons, 1);
     }
@@ -108,6 +125,7 @@ public class ReplyKeyboardService {
         keyboardMarkup.setKeyboard(keyboardRows);
         return keyboardMarkup;
     }
+
 
 
 }

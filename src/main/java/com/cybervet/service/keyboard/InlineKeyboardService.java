@@ -11,6 +11,12 @@ import java.util.List;
 public class InlineKeyboardService {
 
 
+    public InlineKeyboardMarkup getAddPetButton(){
+        HashMap<String, String> getPetButton = new HashMap<>();
+        getPetButton.put("Добавить питомца", "ADD_PET");
+
+        return getInlineKeyboard(getPetButton, 1);
+    }
     public InlineKeyboardMarkup createDiet(){
         HashMap<String, String> createDietButtons = new HashMap<>();
         createDietButtons.put("Создать рацион", "CREATE_DIET");

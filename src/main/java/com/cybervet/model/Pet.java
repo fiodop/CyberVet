@@ -24,7 +24,7 @@ public class Pet {
     private String energySource;
     private PhysiologicalState physiologicalState;
     @ManyToOne
-    private AppUser owner;
+    private User owner;
     @ManyToOne(cascade = CascadeType.ALL)
     private Diet diet = null;
     private LocalDateTime createdAt;

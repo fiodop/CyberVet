@@ -23,12 +23,13 @@ public class ExelTableHandler implements CommandHandler {
     public ResponseDto handle(String command, long chatId, Update update) {
         InputStream table;
         try {
-            table = new FileInputStream("src/main/resources/exel/Корма по критериям.xlsx");
-
+            table = new FileInputStream("src/main/resources/exel/тест 1.xlsx");
+            int cnt = exelService.readExel(table);
+            return new ResponseDto(chatId, "Успешно загружено " + cnt + " строк");
         } catch (Exception e){
             e.printStackTrace();
         }
-
+        return new ResponseDto(chatId, "Не удалось загрузить документ");
 
     }
 }

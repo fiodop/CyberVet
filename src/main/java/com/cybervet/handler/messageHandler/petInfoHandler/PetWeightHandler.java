@@ -30,12 +30,16 @@ public class PetWeightHandler implements MessageHandler {
         response.setChatId(chatId);
         ArrayList<ResponseDto> responses = new ArrayList<>();
         switch (message) {
-            case "До 2 месяцев" -> setAge(chatId, PetAge.BEFORE_2_MONTHS);
+            case "До 4 месяцев" -> setAge(chatId, PetAge.BEFORE_4_MONTHS);
             case "До года" -> setAge(chatId, PetAge.BEFORE_1_YEAR);
+            case "До 7 лет" -> setAge(chatId, PetAge.BEFORE_7_YEARS);
+            case "До 12 лет" -> setAge(chatId, PetAge.BEFORE_12_YEARS);
+            case "Более 12 лет" -> setAge(chatId, PetAge.MORE_THAN_12_YEARS);
+            case "До 2 месяцев" -> setAge(chatId, PetAge.BEFORE_2_MONTHS);
             case "До 5 лет" -> setAge(chatId, PetAge.BEFORE_5_YEARS);
-            case "Старше 5 лет" -> setAge(chatId, PetAge.OLDER_5_YEARS);
+            case "Более 5 лет" -> setAge(chatId, PetAge.MORE_THAN_5_YEARS);
             default -> {
-                response.setMessage("Выберите число — возраст питомца");
+                response.setMessage("Выберите кнопку на клавиатуре");
                 responses.add(response);
                 return responses;
             }

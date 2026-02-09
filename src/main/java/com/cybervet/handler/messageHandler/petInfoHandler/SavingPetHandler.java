@@ -22,9 +22,6 @@ public class SavingPetHandler implements MessageHandler {
 
     @Override
     public ArrayList<ResponseDto> handle(long chatId, String message) {
-        setPhysiologicalState(chatId, message);
-
-
 
         ResponseDto response = new ResponseDto();
         response.setChatId(chatId);
@@ -38,36 +35,9 @@ public class SavingPetHandler implements MessageHandler {
 
     @Override
     public boolean supports(String message) {
-        return message.equals("Беременная")
-                || message.equals("Кастрирован(а)")
-                || message.equals("Нормальное состояние");
+        return false;
+        //TODO дописать хендлер для типа мяса
     }
 
-    private void setPhysiologicalState(long chatId, String physiologicalState) {
-        var pets = stateService.getPets();
-        PetDto pet = pets.get(chatId);
-
-        switch (physiologicalState) {
-            case "Беременная":
-                pet.setPhysiologicalState(PhysiologicalState.PREGNANT);
-                break;
-
-            case "Кастрирован(а)":
-                pet.setPhysiologicalState(PhysiologicalState.CASTRATED);
-                break;
-
-            case "Нормальное состояние":
-                pet.setPhysiologicalState(PhysiologicalState.NORMAL_STATE);
-                break;
-
-            default: throw new IllegalArgumentException();
-        }
-
-        petService.save(pet);
-        pets.remove(chatId);
-    }
-
-
-
-
+//    private String
 }
